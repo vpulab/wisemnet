@@ -1,0 +1,52 @@
+WiSE-MNet 1.2: Changes from WiSE-MNet 1.1
+------------------------------------------
+- Improved documentation & bug fixes
+
+- Added support for omnetpp 5.0 and opencv 3.2.0
+
+- Added new algorithm MTIC for multi-target tracking
+
+- Added support to download and use multi-camera datasets in directory 'videos'
+
+
+WiSE-MNet 1.1: Changes from WiSE-MNet 0.1
+------------------------------------------
+
+- Included new sensing model to consider directionality of FOVs for cameras.
+  The parameters can configured in the *.ini files. Included sample project
+  to show its use.
+
+- New PhysicalProcess for reading videofiles in disk (WiSEVideoFile).
+  It has no movement, only simulation of a sensing device in a camera.
+
+- Improved the synchronization between analysis and topology discovery. Currently,
+  all nodes participate in topology discovery (communication and vision) and no 
+  node starts analysis until both discoveries have been completed.
+
+- Included a base class for algorithms to periodic analize content using
+  a finite state machine (wiseCameraPeriodicAlgo) similar to the 
+  application for target tracking (wiseCameraPeriodicTracker) existing in 
+  the previous version.
+
+- Included a buffer to support delayed communication. Implemented within 
+  the distributed single target tracker (KCF).
+
+- Included new functions to handle the communication and vision graphs within
+  the network. Each node can send data to all neighborgs via a single function.
+
+- Include new tests for different FOV shapes and sources-to-sink scenarios for
+  video transmission.
+
+- Implemented a buffer to support delayed communication. Implemented within 
+  the distributed single target tracker (KCF).
+
+- Included additional documentation for WiSE related functions. The 
+  doxygen-style documentation is include in directory "doc/html"
+
+- Implemented new algorithms for distributed single target tracking 
+  based on Kalman and Information Consensus Filters (KCF, ICF)
+
+- Implemented new algorithms for distributed multiple target tracking 
+  based on Information Consensus Filters and Nearest Neighborg (ICF-NN)
+
+

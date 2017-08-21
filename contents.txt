@@ -1,0 +1,50 @@
+TO INSTALL Wise-MNet type using the command window:
+> ./makemake
+> make
+
+TO INSTALL Wise-MNet type using the omnetpp IDE:
+
+READ the Instalation guide for more details.
+
+================================================================================
+In the Root directory there are the following directories :
+
+bin           --> Dir containing the Castalia and CastaliaResults scripts
+
+out           --> Dir produced by the build process. Contains all interediate
+                  built files, as well as the Castalia/Wise-Mnet executable. 
+
+Simulations   --> Dir containing various simulation configuration files
+                  Simulations can easily be run from its sub dirs. 
+
+src           --> The source code of Castalia (*.cc, *.h, *.msg, *.ned files)
+                  The directory's structure corresponds to the structure of the 
+                  compound modules and submodules that Castalia has. 
+
+wise 	      --> WiSE extensions of Castalia library
+wise/src	--> source code (c++/NED files) 
+wise/simulations --> simulation setups (*.ini files)
+
+
+================================================================================
+In the Root directory there are the following files :
+
+Makefile      --> File created after the invocation of the makemake script.
+
+makemake      --> The script to generate the appropriate Makefiles. It uses 
+                  OMNeT's opp_makemake tool.
+
+makeclean     --> The script to clean the Makefiles and all the generated files 
+		  after compilation
+
+wise-mnet   --> The Castalia executable. A soft link to out/gcc-release/wise-mnet
+
+CHANGES.txt   --> The change log.
+
+LICENSE_CASTALIA  --> The License of Castalia sofware in plain text
+LICENSE_WISE --> The License of WiSE sofware in plain text
+
+NED_config --> Configuration of NED description language for Omnetpp
+package.ned --> Configuration of NED description language for Omnetpp
+
+===============  READ THE INSTALATION GUIDE AND THE USER'S MANUAL  ==============

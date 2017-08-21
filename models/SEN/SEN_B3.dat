@@ -1,0 +1,48 @@
+// MODEL DESCRIPTION FOR SENSING CMOS B3
+// Extracted from paper:
+//    R. Likamwa, "Energy Characterization and Optimization of Image sensing toward continuous Mobile Vision", Mobisys 2013
+//
+// Details:
+//	- Three states: Active (A), idle (I) and Sleep (S)
+//	- Power and delays for state transitions
+//    - Power: PA~137.1mW, PI~105.9mW, PS~XXmW @24MHz
+//	- Operating frequency~ 10-24MHz
+//	- Operating voltage~ ??
+
+//ACTIVE MODE
+//Power for active mode (mW)
+// Pactive = Pa_c3*f^3 + Pa_c2*f^2 + Pa_c1*f + Pa_c0
+Pa_c3=0
+Pa_c2=0
+//Pa_c1=5.1e-6
+Pa_c1=0.0000051
+Pa_c0=13.1
+
+//IDLE MODE
+//Power for idle mode (mW)
+// Pidle = Pi_c3*f^3 + Pi_c2*f^2 + Pi_c1*f + Pi_c0
+Pi_c3=0
+Pi_c2=0
+//Pi_c1=3.35e-6
+Pi_c1=0.00000335
+Pi_c0=4.4
+
+//SLEEP MODE
+//Power for sleep mode (mW)
+PS=0.010e-3
+
+//Max Operating frequency (MHz)
+FMAX=40e6
+
+//Min operating frequency (MHz)
+FMIN=10e6
+
+//Max Operating framerate (FPS)
+FRMAX=30
+
+//Min operating framerate (FPS)
+FRMIN=1
+
+ROWS=752
+COLS=480
+NCH=3

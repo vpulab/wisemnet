@@ -1,0 +1,3 @@
+package wise;
+
+@license(LGPL);

@@ -1,0 +1,69 @@
+// MODEL DESCRIPTION FOR CPU "ARM Cortex-A9" (samsung Galaxy 2, 2007)
+// Extracted from papers:
+// K. De Vogeleer et al, The Energy/Frequency Convexity Rule: Modeling and Experimental Validation on Mobile Devices", PPAM (1) 2013: 793-803.
+// K. De Vogeleer et al, "Energy consumption modeling and experimental validation on mobile devies", Technical Report, Dec. 2013
+//
+// Details:
+//	- Three states: Active (A), idle (I) and Sleep (S)
+//	- Power and delays for state transitions
+//    - Power: PA~675mW@1.2Ghz, PA~80mW@350Mhz, PI~25mW, PS~0.1mW
+//	- Operating frequency~ 25-1600MHz
+//	- Operating voltage~ 0.85-1.35V
+
+//ACTIVE MODE
+// Power for active mode (mW)
+// Pact =Pa_k3*f^3 + Pa_k2*f ^2 + Pa_k2*f+Pa_k0 (3rd-order model)
+// f - frequency (in Ghz)
+Pa_k0=0.0154
+//Pa_k1=1.0556e-10
+Pa_k1=0.00000000010556
+//Pa_k2=3.1640e-19
+Pa_k2=0.00000000000000000031640
+Pa_k3=0
+
+//IDLE MODE
+// Power for idle mode (mW)
+// Pidle =Pi_k*Pact
+// f - frequency (in Ghz)
+Pi_k=1
+Pi_f=400e6
+//Pi_k=0.25
+//Pi_f=800e6
+//Pi_k=0.032
+//Pi_f=1600e6
+
+//SLEEP MODE
+//Power for sleep mode (mW)
+PS=0.001
+
+//Max Operating frequency (MHz)
+FMAX=1600e6
+
+//Min operating frequency (MHz)
+FMIN=25e6
+
+//VOLTAGE-FREQUENCY RELATION
+// Model --> V=m1*f+m2
+//DVS_m1=0.3304e-9
+DVS_m1=0.0000000003304
+DVS_m2=0.8077
+
+//DELAY TRANSITION MATRIX
+// State switching times (time to switch from column state to row state, in msec)
+//			ACTIVE	IDLE	SLEEP
+//ACTIVE		-		0.0		0.0
+//IDLE	    		0.0		-		0.0
+//SLEEP		0.0		0.0		-
+DTM_A=-,0.0,0.0
+DTM_I=0.0,-,0.0
+DTM_S=0.0,0.0,-
+
+//POWER TRANSITION MATRIX
+// State switching power
+//			ACTIVE	IDLE	SLEEP
+//ACTIVE		-		0.0		0.0
+//IDLE	     		0.0		-		0.0
+//SLEEP		0.0		0.0		-
+PTM_A=-,0.0,0.0
+PTM_I=0.0,-,0.0
+PTM_S=0.0,0.0,-

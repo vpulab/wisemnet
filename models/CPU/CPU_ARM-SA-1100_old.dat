@@ -1,0 +1,62 @@
+// MODEL DESCRIPTION FOR CPU "Strong ARM  SA-1100"
+// Extracted from paper:
+//    A. Wang, "Energy-efficient DSPs for wireless sensor networks", IEEE Signal Processing Magazine, 2002
+//
+// Details:
+//	- Three states: Active (A), idle (I) and Sleep (S)
+//	- Power and delays for state transitions
+//    - Power: PA~400mW, PI~25-50mW, PS~0.15mW
+//	- Operating frequency~ 74-206MHz
+//	- Operating voltage~ 0.85-1.44V
+
+//ACTIVE MODE
+// Power for active mode (mW)
+// Pact =Pa_k3*f^3 + Pa_k2*f ^2 + Pa_k2*f+Pa_k0 (3rd-order model)
+// f - frequency (in Ghz)
+Pa_k0=0.0238
+Pa_k1=-4.4840e-10
+Pa_k2=7.6302e-18
+Pa_k3=0
+
+//IDLE MODE
+// Power for idle mode (mW)
+// Pidle =Pi_k*Pact
+// f - frequency (in Ghz)
+Pi_k=
+
+//SLEEP MODE
+//Power for sleep mode (mW)
+PS=0.15e-3
+
+//Max Operating frequency (MHz)
+FMAX=220e6
+
+//Min operating frequency (MHz)
+FMIN=70e6
+
+//VOLTAGE-FREQUENCY RELATION
+// Formula in paper f=K(V-c)=KV-K*c
+// with K=239.28, c=0.5
+// Model --> V=m1*f+m2
+DVS_m1=0,004179e-6
+DVS_m2=0,5
+
+//DELAY TRANSITION MATRIX
+// State switching times (time to switch from column state to row state, in msec)
+//			ACTIVE	IDLE	SLEEP
+//ACTIVE		-		0.0		0.0
+//IDLE	    		0.0		-		0.0
+//SLEEP		0.0		0.0		-
+DTM_A=-,0.0,0.0
+DTM_I=0.0,-,0.0
+DTM_S=0.0,0.0,-
+
+//POWER TRANSITION MATRIX
+// State switching power
+//			ACTIVE	IDLE	SLEEP
+//ACTIVE		-		0.0		0.0
+//IDLE	     		0.0		-		0.0
+//SLEEP		0.0		0.0		-
+PTM_A=-,0.0,0.0
+PTM_I=0.0,-,0.0
+PTM_S=0.0,0.0,-
