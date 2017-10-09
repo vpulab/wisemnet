@@ -35,6 +35,7 @@ void WiseVideoFile::initialize()
 	_moveLater = par("move_later");
 	_iniFrame = par("iniFrame");
 	_endFrame = par("endFrame");
+	_waitFrames = par("waitFrames");
 	_resize = par("resize");
 
 	//connect to video file
@@ -58,7 +59,7 @@ void WiseVideoFile::initialize()
 	    _endFrame = _numFrames;
 
 	//read for positioning in required frame
-	for (int i=0;i<=_curFrame;i++)
+	for (int i=0;i<=_curFrame-1;i++)
 	    *_cap >> _tmpFrame;
 
 	if (_resize != -1)
@@ -66,8 +67,12 @@ void WiseVideoFile::initialize()
 	else
 	    _frame = _tmpFrame;
 
-	_os << "ORIGINAL FRAMERATE (SENSOR " << self << "@" << _frameRate << "fps )";
+	_os << "SENSOR " << self << ": ORIGINAL FRAMERATE @" << _frameRate << "fps ";
 
+	 if (_show_video){
+	        cv::imshow(_os.str(),_frame);
+	        cv::waitKey(0);
+	     }
 	//compute the capture frequency based on framerate and schedule first capture
 	_updateTime = 1 / _frameRate;
 	scheduleAt(simTime() + _updateTime + _moveLater, new cMessage("CaptureFrame", TIMER_SERVICE));
@@ -111,23 +116,39 @@ void WiseVideoFile::handleMessage(cMessage * msg)
 		break;
 
 	case TIMER_SERVICE:
-	    //grab new frame
-	    _curFrame++;
 
-	    if (_curFrame < _endFrame){
-	        *_cap >> _tmpFrame;
-
-	        if (_resize != -1)
-	            cv::resize(_tmpFrame,_frame,cv::Size(),_resize,_resize);
-            else
-                _frame = _tmpFrame;
+	    //we first wait for a number of frames to sync with other video streams
+	    if (_waitFrames>0)
+	    {
+	        _waitFrames--;
+	        _frame.setTo(cv::Scalar(0));
 	    }
 	    else
-	        _frame.setTo(cv::Scalar(0));
+	    {
+	        //grab new frame
+	        _curFrame++;
 
-	    if (_show_video){
-	        cv::imshow(_os.str(),_frame);
-	        cv::waitKey(1);
+            if (_curFrame < _endFrame){
+                *_cap >> _tmpFrame;
+
+                if (_resize != -1)
+                    cv::resize(_tmpFrame,_frame,cv::Size(),_resize,_resize);
+                else
+                    _frame = _tmpFrame;
+            }
+            else
+                _frame.setTo(cv::Scalar(0));
+
+            if (_show_video){
+                //get the frame number and write it on the current frame
+                stringstream ss;
+                cv::rectangle(_frame, cv::Point(10, 2), cv::Point(100,20), cv::Scalar(255,255,255), -1);
+                ss << _curFrame-1;
+                cv::putText(_frame,  ss.str().c_str(), cv::Point(15, 15),cv::FONT_HERSHEY_SIMPLEX, 0.5 , cv::Scalar(0,0,0));
+
+                cv::imshow(_os.str(),_frame);
+                cv::waitKey(1);
+            }
 	    }
 
 	    //re-schedule the capture of new frame

@@ -31,7 +31,7 @@ WiseGuiWorld::Factory::Factory(const string &name, WiseGuiWorld::Factory::creato
         registry->insert(make_pair(name, fun));
 }
 
-WiseGuiWorld* WiseGuiWorld::Factory::create(const string &name, bool show, unsigned w, unsigned h, float scale, std::string mapfile, bool draw_trajectory)
+WiseGuiWorld* WiseGuiWorld::Factory::create(const string &name, bool show, unsigned w, unsigned h, float offsetX, float offsetY, float scale, std::string mapfile, bool draw_trajectory)
 {
 	if (!registry) {
 		string s = "\nwise::WiseGuiWorld::Factory : ERROR calling create(...) :\n"
@@ -45,10 +45,10 @@ WiseGuiWorld* WiseGuiWorld::Factory::create(const string &name, bool show, unsig
 		s += name + "').\n";
         throw WiseException(s);
 	}
-	return registry->at(name)(show,w,h,scale,mapfile,draw_trajectory);
+	return registry->at(name)(show,w,h,offsetX,offsetY,scale,mapfile,draw_trajectory);
 }
 
-WiseGuiWorld::WiseGuiWorld(bool show, unsigned w, unsigned h, float s, std::string mapfile,bool draw_trajectory)
+WiseGuiWorld::WiseGuiWorld(bool show, unsigned w, unsigned h, float offsetX, float offsetY,float s, std::string mapfile,bool draw_trajectory)
 {
 	_scaling_factor = (s == 0) ?  320.f / w : s;
 }

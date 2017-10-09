@@ -32,11 +32,12 @@ void WiseCameraDetections::initialize()
 
 WiseCameraMessage *WiseCameraDetections::process(WisePhysicalProcessMessage *msg)
 {
-	WISE_DEBUG_3("WiseCameraDetections::handleSample()");
+	WISE_DEBUG_20("WiseCameraDetections::handleSample()");
 
 	WiseMovingTargetMessage *event;
 	event = check_and_cast<WiseMovingTargetMessage*>(msg); 
 	WiseTargetBoundingBox t_bb = event->getBoundingBox();
+
 	// NOTE: numProcess CANNOT be negative, checked before!
 	if (pending_sample_reply == manager.get_num_processes())  
 		detections.clear();
@@ -46,12 +47,12 @@ WiseCameraMessage *WiseCameraDetections::process(WisePhysicalProcessMessage *msg
 	// world-to-CameraImagePlane mapping
 	WiseTargetDetection d;
 	if (manager.get_camera_info().get_fov_type() ==	WiseCameraInfo::BOUNDING_BOX)
-		mapping_bounding_box(t_bb, d);
+	    mapping_bounding_box(t_bb, d);
 	if (manager.get_camera_info().get_fov_type() == WiseCameraInfo::DIRECTIONAL)
-	   mapping_directional(t_bb, d);
+	    mapping_directional(t_bb, d);
 
 	if (d.valid) {
-		WISE_DEBUG_3("           TargetID = " << event->getTargetID());
+		WISE_DEBUG_20("           TargetID = " << event->getTargetID());
 	}
 	d.target_id = event->getTargetID();
 	detections.push_back(d);
@@ -119,10 +120,10 @@ void WiseCameraDetections::mapping_bounding_box(const WiseTargetBoundingBox &t, 
 	d.ext_bb_x_br = view_x_br;
 	d.ext_bb_y_br = view_y_br;
 
-	WISE_DEBUG_3("DETECTION: CAM_"  << " @ (" << fov.c_x << ", " << fov.c_y << ", " << 0 << ")" << " FOV=[(" << fov.min_x << "," << fov.min_y << ") (" << fov.max_x << "," << fov.max_y << ")]");
-	WISE_DEBUG_3("           Target -> tl=(" << t.x_tl << " , " << t.y_tl << ") br=(" << t.x_br << " , " << t.y_br << ")");
-	WISE_DEBUG_3("           View   -> tl=(" << view_x_tl << " , " << view_y_tl << ") br=(" << view_x_br << " , " << view_y_br << ")");
-	WISE_DEBUG_3("           Detect -> tl=(" << d.bb_x_tl << " , " << d.bb_y_tl  << ") br=(" << d.bb_x_br << " , " << d.bb_y_br << ")");
+	WISE_DEBUG_20("DETECTION: CAM_"  << " @ (" << fov.c_x << ", " << fov.c_y << ", " << 0 << ")" << " FOV=[(" << fov.min_x << "," << fov.min_y << ") (" << fov.max_x << "," << fov.max_y << ")]");
+	WISE_DEBUG_20("           Target -> tl=(" << t.x_tl << " , " << t.y_tl << ") br=(" << t.x_br << " , " << t.y_br << ")");
+	WISE_DEBUG_20("           View   -> tl=(" << view_x_tl << " , " << view_y_tl << ") br=(" << view_x_br << " , " << view_y_br << ")");
+	WISE_DEBUG_20("           Detect -> tl=(" << d.bb_x_tl << " , " << d.bb_y_tl  << ") br=(" << d.bb_x_br << " , " << d.bb_y_br << ")");
 }
 
 void WiseCameraDetections::mapping_directional(const WiseTargetBoundingBox &t, WiseTargetDetection &d)
@@ -181,8 +182,8 @@ void WiseCameraDetections::mapping_directional(const WiseTargetBoundingBox &t, W
     d.ext_bb_x_br = view_x_br;
     d.ext_bb_y_br = view_y_br;
 
-    WISE_DEBUG_3("DETECTION: CAM_"  << " @ (" << fov.c_px << ", " << fov.c_py << ", " << 0 << ")" << " FOV=[(" << fov.min_x << "," << fov.min_y << ") (" << fov.max_x << "," << fov.max_y << ")]");
-    WISE_DEBUG_3("           Target -> tl=(" << t.x_tl << " , " << t.y_tl << ") br=(" << t.x_br << " , " << t.y_br << ")");
-    WISE_DEBUG_3("           View   -> tl=(" << view_x_tl << " , " << view_y_tl << ") br=(" << view_x_br << " , " << view_y_br << ")");
-    WISE_DEBUG_3("           Detect -> tl=(" << d.bb_x_tl << " , " << d.bb_y_tl  << ") br=(" << d.bb_x_br << " , " << d.bb_y_br << ")");
+    WISE_DEBUG_20("DETECTION: CAM_"  << " @ (" << fov.c_px << ", " << fov.c_py << ", " << 0 << ")" << " FOV=[(" << fov.min_x << "," << fov.min_y << ") (" << fov.max_x << "," << fov.max_y << ")]");
+    WISE_DEBUG_20("           Target -> tl=(" << t.x_tl << " , " << t.y_tl << ") br=(" << t.x_br << " , " << t.y_br << ")");
+    WISE_DEBUG_20("           View   -> tl=(" << view_x_tl << " , " << view_y_tl << ") br=(" << view_x_br << " , " << view_y_br << ")");
+    WISE_DEBUG_20("           Detect -> tl=(" << d.bb_x_tl << " , " << d.bb_y_tl  << ") br=(" << d.bb_x_br << " , " << d.bb_y_br << ")");
 }

@@ -51,7 +51,7 @@ protected:
 	string _GPmap_path;
 
 	double _xmin,_xmax,_ymin,_ymax;
-	double _scale_factor;
+	double _scale_world;
 
 	unsigned n_processes;
 
@@ -66,17 +66,22 @@ public:
 	inline double get_x_size() const { return x_size; };
 	inline double get_y_size() const { return y_size; };
 	inline double get_z_size() const { return z_size; };
-	inline double get_scale_factor() const { return _scale_factor; };
+	inline double get_scale_factor() const { return _scale_world; };
 	inline double get_x_min() const { return _xmin; };
 	inline double get_x_max() const { return _xmax; };
 	inline double get_y_min() const { return _ymin; };
 	inline double get_y_max() const { return _ymax; };
 
+	inline WiseGuiWorld* get_GUI() const { return gui; };
+
 	//Method to place a camera within the image displayed by the GUI
-	virtual void place_camera(const WiseCameraInfo&);
+	virtual void place_camera(const WiseCameraInfo&, int GUI_idx=0);
 
 	//Method to place a target within the image displayed by the GUI
-	virtual void place_target(const WiseTargetInfo&);
+	virtual void place_target(const WiseTargetInfo&, int GUI_idx=0);
+
+	//Method to place a target within the image displayed by the GUI
+	virtual void place_noise(const WiseTargetInfo&, int GUI_idx=0);
 
 	virtual inline bool free_point(double x, double y, double z) const 
 								{return true;};

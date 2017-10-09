@@ -181,7 +181,8 @@ class WiseResourceManager: public CastaliaModule {
  private:
 
 	// parameters and variables
-    int _self,_camID;
+    int _self;
+    std::string _camID;
 
 	/*--- The default parameters ---*/
 	double sigmaCPUClockDrift;
@@ -205,6 +206,9 @@ class WiseResourceManager: public CastaliaModule {
 	cMessage *_energyMsg;
 	std::ofstream *_logger;
 	int _lastLogS;
+	bool _generateLog;
+
+	int _displayData;
 
  public:
     /*--- Models & costs (structures) ---*/
@@ -246,12 +250,12 @@ class WiseResourceManager: public CastaliaModule {
 	pro_info_t getPROInfo(){return _pro;}
 
     /*--- Set/Get methods for COMMS module ---*/
-	int getCOMBytesTXraw(){return _com.data.TXbit_raw[_com.cost.count-1]*8;}
-	int getCOMBytesRXraw(){return _com.data.RXbit_raw[_com.cost.count-1]*8;}
-	int getCOMBytesTXreq(){return _com.data.TXbit_req[_com.cost.count-1]*8;}
-	int getCOMBytesRXreq(){return _com.data.RXbit_req[_com.cost.count-1]*8;}
-	int getCOMBytesTXdone(){return _com.data.TXbit_done[_com.cost.count-1]*8;}
-	int getCOMBytesRXdone(){return _com.data.RXbit_done[_com.cost.count-1]*8;}
+	int getCOMBytesTXraw(){return _com.data.TXbit_raw[_com.cost.count-1]/8;}
+	int getCOMBytesRXraw(){return _com.data.RXbit_raw[_com.cost.count-1]/8;}
+	int getCOMBytesTXreq(){return _com.data.TXbit_req[_com.cost.count-1]/8;}
+	int getCOMBytesRXreq(){return _com.data.RXbit_req[_com.cost.count-1]/8;}
+	int getCOMBytesTXdone(){return _com.data.TXbit_done[_com.cost.count-1]/8;}
+	int getCOMBytesRXdone(){return _com.data.RXbit_done[_com.cost.count-1]/8;}
 	int getCOMDrop(){return _com.dropData;}
 	com_info_t getCOMInfo(){return _com;}
 
@@ -275,8 +279,11 @@ class WiseResourceManager: public CastaliaModule {
 
     void parseRadioParameterFile(const char *fileName);
 
-    void initLogger(std::string _filename, int self ,int camID);
+    void initLogger(std::string _filename, int self ,std::string camID);
+
+    void initIDs(int self ,std::string camID);
     void logCurrentData();
+    void displayCurrentData();
 
     double getSpentTime(int index=-1);
 };

@@ -31,10 +31,10 @@ void WiseBaseSensorManager::initialize()
 	numSensingDevices = par("numSensingDevices");
 	in_str = par("maxSampleRates");
 	numProcesses = gateSize("toNodeContainerModule");
-	WISE_DEBUG_3("WiseBaseSensorManager::initialize()");
-	WISE_DEBUG_3("\tnumSensingDevices = " << numSensingDevices);
-	WISE_DEBUG_3("\tnumProcess = " << numProcesses);
-	WISE_DEBUG_3("\tmaxSampleRates = " << in_str);
+	WISE_DEBUG_20("WiseBaseSensorManager::initialize()");
+	WISE_DEBUG_20("\tnumSensingDevices = " << numSensingDevices);
+	WISE_DEBUG_20("\tnumProcess = " << numProcesses);
+	WISE_DEBUG_20("\tmaxSampleRates = " << in_str);
 
 	minSamplingIntervals.clear();
 	lastSampleTime.clear();
@@ -62,7 +62,7 @@ void WiseBaseSensorManager::handleMessage(cMessage * msg)
 {
 	int msgKind = msg->getKind();
 
-	WISE_DEBUG_3("WiseBaseSensorManager::handleMessage() kind=" << msgKind);
+	WISE_DEBUG_20("WiseBaseSensorManager::handleMessage() kind=" << msgKind);
 	if (disabled && msgKind != NODE_STARTUP) {
 		delete msg;
 		msg = NULL;	// safeguard
@@ -79,7 +79,7 @@ void WiseBaseSensorManager::handleMessage(cMessage * msg)
 		break;
 	case SENSOR_READING_MESSAGE:
 	/* Assplication to Sensor:  */
-		WISE_DEBUG_3("\tSENSOR_READING_MESSAGE");
+		WISE_DEBUG_20("\tSENSOR_READING_MESSAGE");
 		WiseSensorManagerMessage *req;
 		req = check_and_cast<WiseSensorManagerMessage*>(msg);
 		if (req->getType() == WISE_SENS_NORMAL) // Sample Request
@@ -90,7 +90,7 @@ void WiseBaseSensorManager::handleMessage(cMessage * msg)
 	case PHYSICAL_PROCESS_SAMPLING:
 	/* Message received by the physical process. It holds a value and the 
 	 * index of the sensor that sent the sample request.  */
-		WISE_DEBUG_3("\tPHYSICAL_PROCESS_SAMPLING");
+		WISE_DEBUG_20("\tPHYSICAL_PROCESS_SAMPLING");
 		trace() << "\tPHYSICAL_PROCESS_SAMPLING";
 		WisePhysicalProcessMessage *proc_rep;
 		proc_rep = check_and_cast<WisePhysicalProcessMessage*>(msg);

@@ -23,10 +23,10 @@ parameters:
 	bool collectTraceInfo = default (false);
 	string gui = default ("opencv");
 	bool gui_wait_start = default(false);
-	bool gui_show = default(false);
-	double scale_factor = default(1.0);	
+	bool gui_show = default(false);	
 	string GPmap_path = default("path-to-groundplane_image");
 	bool draw_trajectory = default(false);
+	double scale_world = default(1); 	// to scale the size of the GUI-world so it can fit in small displays
 gates:
 	input update @ directIn; // WiseBaseTerrain Update
 }

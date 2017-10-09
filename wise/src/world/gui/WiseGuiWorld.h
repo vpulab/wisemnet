@@ -25,12 +25,12 @@ class WiseGuiWorld {
 public:
 	class Factory {
 	private: 
-		typedef WiseGuiWorld* (*creator_t)(bool, unsigned, unsigned, float, std::string, bool);
+		typedef WiseGuiWorld* (*creator_t)(bool, unsigned, unsigned, float, float, float, std::string, bool);
 	private:
 		static std::map<std::string, creator_t> *registry;
 	public:
 		Factory(const std::string&, creator_t);
-		static WiseGuiWorld *create(const std::string&, bool, unsigned, unsigned, float scaling_factor, std::string mapfile, bool draw_trajectory);
+		static WiseGuiWorld *create(const std::string&, bool, unsigned, unsigned, float, float, float scaling_factor, std::string mapfile, bool draw_trajectory);
 	};
 
 protected:
@@ -39,11 +39,12 @@ protected:
 	bool _draw_trajectory;
 
 public:
-	WiseGuiWorld(bool show, unsigned w, unsigned h, float scale, std::string mapfile,bool draw_trajectory);
+	WiseGuiWorld(bool show, unsigned w, unsigned h, float offsetX, float offsetY,float scale, std::string mapfile,bool draw_trajectory);
 	virtual ~WiseGuiWorld() {} ;
 	virtual void wait_key() = 0;
-	virtual void draw_camera(const WiseCameraInfo&) = 0;
-	virtual void draw_target(const WiseTargetInfo&) = 0;
+	virtual void draw_camera(const WiseCameraInfo&, std::string winname) = 0;
+	virtual void draw_target(const WiseTargetInfo&, std::string winname) = 0;
+    virtual void draw_noise(const WiseTargetInfo&, std::string winname) = 0;
 	virtual void hold() = 0;
 	virtual void clean() = 0;
 

@@ -16,12 +16,12 @@
 // *****************************************************************************
 
 cplusplus {{
-	#include "WiseApplicationPacket_m.h"
+	#include "WiseBaseAppPacket_m.h"
 }};
 
-class WiseApplicationPacket;
+class WiseBaseAppPacket;
 
-packet WiseCameraAppTestPacket extends WiseApplicationPacket  {
+packet WiseCameraAppTestPacket extends WiseBaseAppPacket  {
 
 	unsigned int detectionCounter;
 }

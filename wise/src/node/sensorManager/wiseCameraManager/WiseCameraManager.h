@@ -31,7 +31,10 @@ protected:
 	std::map<std::string, WiseCameraHandler*> _handlers;
 
 	std::string _calibFile, _calibType;
+	std::string _calibFileMap;
 	Etiseo::CameraModel *_calibModel;
+
+	cv::Mat _worldmap;
 
 public:
 	virtual ~WiseCameraManager();

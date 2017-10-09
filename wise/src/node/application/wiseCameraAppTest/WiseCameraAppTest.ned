@@ -1,42 +1,48 @@
-// *****************************************************************************
-//  Original copyright (C): Christian Nastasi, 2011
-//  Updated copyright (C): Juan C. SanMiguel, 2017
-//  Author(s): Christian Nastasi, Juan C. SanMiguel
+// *****************************************************************************************
+// Copyright (C) 2011 Christian Nastasi, 2017 Juan C. SanMiguel and Andrea Cavallaro
+// You may use, distribute and modify this code under the terms of the ACADEMIC PUBLIC
+// license (see the attached LICENSE_WISE file).
 //
-//  Developed at the:                                                         
-//  - Retis LAB, TeCIP Institute, Scuola Superiore Sant'Anna (Pisa, Italy)
-//  - School of Elec Eng and Computer Science, Queen Mary University of London (London, UK)
-//  - VPULab, Universidad Autonoma of Madrid (Madrid, Spain)
+// This file is part of the WiseMnet simulator
 //
-//  This file is distributed under the terms in the attached LICENSE_2 file.  
-//
-//  Updated contact information:
+// Updated contact information:
 //  - Juan C. SanMiguel - Universidad Autonoma of Madrid - juancarlos.sanmiguel@uam.es
 //  - Andrea Cavallaro - Queen Mary University of London - a.cavallaro@qmul.ac.uk
-// *****************************************************************************
+//
+// Please cite the following reference when publishing results obtained with WiseMnet:
+//   J. SanMiguel & A. Cavallaro,
+//   "Networked Computer Vision: the importance of a holistic simulator",
+//   IEEE Computer, 50(7):35-43, Jul 2017, http://ieeexplore.ieee.org/document/7971873/
+// *****************************************************************************************
 
+// NED description for the test of the WiseCameraApp interface (Application layer)
 package node.application.wiseCameraAppTest;
 
-simple WiseCameraAppTest like node.application.wiseCameraApplication.WiseCameraApplication {
+simple WiseCameraAppTest like node.application.wiseCameraApp.WiseCameraApp {
 
 parameters:
-	bool synchronizedStartup = default (true);
-	bool showCamImage = default (false);
+    
+    // --- Inherited parameters --- //
+    
+    //parameters required by WiseCameraApp interface	
+	bool neighborDiscoverFOVoverlap = default (false);  // FLAG to generate the VISION graph with overlapped FOVs (co-visibility)
+	string camID = default("");  						// Camera Identifier
 	
-	bool neighbourDiscoverCOM = default (true); // for COMMS graph			
-	bool neighbourDiscoverFOV = default (false); // for VISION graph
-	bool neighbourFullConnectivity = default(false);
-	string userDefinedConnectivity = default("");
+	//parameters required by WiseBaseApplication interface
+	bool synchronizedStartup = default(true);		//FLAG to enable synchronized start of all camera nodes
+	bool neighborDiscoverCOM = default(false);		//FLAG to enable the discovery of nodes via broadcasting "discovery requests" packets
+	bool fullConnectivityCOM = default(false);		//FLAG to enable if all cameras are connected
+	string manualConnectivityCOM = default("");		//String to manually define the connectivity as 1 or 0 (e.g. 1 0 1, connected to camera 0 and 2)
+	double latencyNeighborDiscoverCOM = default(5); //Latency value to start the broadcast of packets
+	string base_out_path = default("res/");			//Base path to write logs
 	
-	
-	double latencyNeighbourDiscoverCOM = default(10);//delay to discover COMMS neighborgs
-	
- 	string applicationID = default ("WiseCameraAppTest");
-	bool collectTraceInfo = default (true);
-	int priority = default (1);
-	int maxAppPacketSize = default (30);	// in bytes
-	int packetHeaderOverhead = default (8);	// in bytes
-	int constantDataPayload = default (2);	// in bytes
+	//parameters specific for iApplication
+ 	string applicationID = default("WiseAppTest");	//Type of application running within each camera node
+ 	bool collectTraceInfo = default(true);			//FLAG to enable logging at application level
+	int priority = default(1);
+	int maxAppPacketSize = default(30);				// in bytes
+	int packetHeaderOverhead = default(8);			// in bytes
+	int constantDataPayload = default(2);			// in bytes
 
 gates:
 	output toApplicationDirect[];

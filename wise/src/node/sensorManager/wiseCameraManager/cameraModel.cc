@@ -29,6 +29,7 @@ using namespace Etiseo;
 CameraModel::CameraModel(std::string calibType)
 {
 	isInit = false;
+	isInit_w2map = false;
 	this->mcalibType = calibType;
 }
 
@@ -76,6 +77,7 @@ void CameraModel::internalInit()
        mH_i2w = cv::Mat::zeros(3,3,CV_32F);
        mH_w2i = cv::Mat::zeros(3,3,CV_32F);
     }
+    mH_w2map= cv::Mat::zeros(3,3,CV_32F);
 
     isInit = true;
 }
@@ -117,11 +119,18 @@ void CameraModel::setExtrinsic(double tx, double ty, double tz, double rx, doubl
 	isInit = false;
 }
 
-bool CameraModel::fromXml(std::string calibFile)
+bool CameraModel::fromXmlCalib(std::string calibFile)
 {
+
     Etiseo::UtilXml::Init();
     std::ifstream is;
     is.open(calibFile.c_str());
+
+    if (!is.is_open())
+    {
+        std::cout << "cannot read image2world calibration from file: "<< calibFile << std::endl;
+        return false;
+    }
 
     std::string prevLocale = setlocale(LC_NUMERIC, NULL);
     std::setlocale(LC_NUMERIC, "en_US.UTF-8"); //use '.' as decimal separator
@@ -292,6 +301,7 @@ bool CameraModel::fromXml(std::string calibFile)
        internalInit();
 
        if (node) {
+           //char *temp;
            if (xmlStrcmp(node->name, XML_TAG_CALIBRATION) == 0) {
 
                xmlNodePtr child = node->xmlChildrenNode;
@@ -323,13 +333,112 @@ bool CameraModel::fromXml(std::string calibFile)
                            child2 = child2->next;
                        }
                    }
+                   if (xmlStrcmp(child->name, XML_TAG_CENTERCAM) == 0) {
+
+                      xmlNodePtr child2 = child->xmlChildrenNode;
+                      while (child2 != NULL) {
+                          if (xmlStrcmp(child2->name, XML_TAG_DATA) == 0) {
+
+                              const vector<string> vals = split((char*)xmlNodeGetContent(child2), " ",true);
+                              int i=0;
+                              while(atof(vals[i].c_str())==0)
+                                  i++;
+                              mCposx = atof(vals[i].c_str());
+                              mCposy = atof(vals[i+1].c_str());
+                              mCposz = atof(vals[i+2].c_str());
+                          }
+                          child2 = child2->next;
+                      }
+                   }
+                   else if (xmlStrcmp(child->name, XML_TAG_GEOMETRY) == 0) {
+                         xmlNodePtr child2 = child->xmlChildrenNode;
+                         while (child2 != NULL) {
+                             if (xmlStrcmp(child2->name, XML_TAG_WIDTH) == 0) {
+
+                                 const vector<string> vals = split((char*)xmlNodeGetContent(child2), " ",true);
+                                 int i=0;
+                                 while(atoi(vals[i].c_str())==0)
+                                     i++;
+                                 mImgWidth = atoi(vals[i].c_str());
+                             }
+                             else if (xmlStrcmp(child2->name, XML_TAG_HEIGHT) == 0) {
+
+                                  const vector<string> vals = split((char*)xmlNodeGetContent(child2), " ",true);
+                                  int i=0;
+                                  while(atoi(vals[i].c_str())==0)
+                                      i++;
+                                  mImgHeight = atoi(vals[i].c_str());
+                             }
+                             child2 = child2->next;
+                         }
+                   }
                    child = child->next;
                }
            }
        }
     }
 
-	return isInit;
+    return isInit;
+}
+
+bool CameraModel::fromXmlMap(std::string calibMapFile)
+{
+    Etiseo::UtilXml::Init();
+    std::ifstream is;
+    is.open(calibMapFile.c_str());
+
+    if (!is.is_open())
+    {
+        std::cout << "cannot read world2map calibration from file: "<< calibMapFile << std::endl;
+        isInit_w2map = false;
+        return false;
+    }
+
+    std::string prevLocale = setlocale(LC_NUMERIC, NULL);
+    std::setlocale(LC_NUMERIC, "en_US.UTF-8"); //use '.' as decimal separator
+    //std::setlocale(LC_NUMERIC, "es_ES.UTF-8"); //use ',' as decimal separator
+
+    xmlDocPtr doc = xmlReadIO(UtilXml::ReadCallback,UtilXml::InputCloseCallback, &is,  NULL, NULL, 0);
+    xmlNodePtr node = xmlDocGetRootElement(doc);
+
+   if (node) {
+       if (xmlStrcmp(node->name, XML_TAG_CALIBRATION) == 0) {
+
+           xmlNodePtr child = node->xmlChildrenNode;
+           while (child != NULL) {
+               if (xmlStrcmp(child->name, XML_TAG_HOMOGRAPHY) == 0) {
+
+                   xmlNodePtr child2 = child->xmlChildrenNode;
+
+                   while (child2 != NULL) {
+                       if (xmlStrcmp(child2->name, XML_TAG_DATA) == 0) {
+
+                           const vector<string> vals = split((char*)xmlNodeGetContent(child2), " ",true);
+                           int i=0;
+                           while(atof(vals[i].c_str())==0)
+                               i++;
+                           mH_w2map.at<float>(0,0) =  atof(vals[i].c_str());
+                           mH_w2map.at<float>(0,1) =  atof(vals[i+1].c_str());
+                           mH_w2map.at<float>(0,2) =  atof(vals[i+2].c_str());
+                           mH_w2map.at<float>(1,0) =  atof(vals[i+3].c_str());
+                           mH_w2map.at<float>(1,1) =  atof(vals[i+4].c_str());
+                           mH_w2map.at<float>(1,2) =  atof(vals[i+5].c_str());
+                           mH_w2map.at<float>(2,0) =  atof(vals[i+6].c_str());
+                           mH_w2map.at<float>(2,1) =  atof(vals[i+7].c_str());
+                           mH_w2map.at<float>(2,2) =  atof(vals[i+8].c_str());
+
+                           //std::cout << mH_w2map << endl;
+                       }
+                       child2 = child2->next;
+                   }
+               }
+               child = child->next;
+           }
+       }
+   }
+
+   isInit_w2map = true;
+   return isInit_w2map;
 }
 
 void CameraModel::toXml(std::ostream& os) const
@@ -716,4 +825,40 @@ bool CameraModel::cameraToWorldCoord (double xc, double yc, double zc, double& x
 		done = true;
 	}
 	return done;
+}
+
+//! from world coordinate to ground-plane map coordinate
+bool CameraModel::worldToMapCoord (double xw, double yw, double zw, double& xm, double& ym)
+{
+    bool done = false;
+
+    if(isInit_w2map)
+    {
+        cv::Mat coord = (cv::Mat_<float>(3, 1) << xw, yw, zw);
+        cv::Mat prj = mH_w2map * coord;
+
+        xm = prj.at<float>(0,0); //xm = prj.at<float>(0,0)/ prj.at<float>(2,0);
+        ym = prj.at<float>(1,0); //ym = prj.at<float>(1,0)/ prj.at<float>(2,0);
+        done = true;
+    }
+    return done;
+}
+
+//! from map coordinate to ground-plane world coordinate
+bool CameraModel::mapToWorldCoord (double xm, double ym, double zm, double& xw, double& yw, double& zw)
+{
+    bool done = false;
+
+    if(isInit_w2map)
+    {
+        cv::Mat coord = (cv::Mat_<float>(3, 1) << xm, ym, zm);
+        cv::Mat prj = mH_w2map.inv() * coord;
+
+        //TODO: check correctness of this conversion
+        xw = prj.at<float>(0,0)/ prj.at<float>(2,0);
+        yw = prj.at<float>(1,0)/ prj.at<float>(2,0);
+        zw = 0;
+        done = true;
+    }
+    return done;
 }

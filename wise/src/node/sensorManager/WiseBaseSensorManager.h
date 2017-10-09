@@ -48,12 +48,19 @@ protected:
 	virtual void processCommandRequest(WiseSensorManagerMessage *req) {} ;
 
 	inline void get_node_location(NodeLocation_type&);
-private:
+
+public:
+	inline const char * get_node_type();
 };
 
 inline void WiseBaseSensorManager::get_node_location(NodeLocation_type &n)
 {
 	n = nodeMobilityModule->getLocation();
+}
+
+inline const char *WiseBaseSensorManager::get_node_type()
+{
+    return physicalProcessName;
 }
 
 #endif // __WiseBaseSensorManager_h__

@@ -48,6 +48,7 @@
 
 #define XML_TAG_CALIBRATION     BAD_CAST"calibration"
 #define XML_TAG_HOMOGRAPHY      BAD_CAST"H"
+#define XML_TAG_CENTERCAM       BAD_CAST"C"
 #define XML_TAG_DATA            BAD_CAST"data"
 
 
@@ -102,7 +103,11 @@ namespace Etiseo {
 	  void setExtrinsic(double tx, double ty, double tz, double rx, double ry, double rz);
 	   
 	  //! Loading from an XML
-	  virtual bool fromXml(std::string calibFile);
+	  virtual bool fromXmlCalib(std::string calibFile);
+
+	  //! Loading from an XML
+	  virtual bool fromXmlMap(std::string calibFile);
+
 	  //! Saving to an XML
 	  virtual void toXml(std::ostream& os) const;
 	  
@@ -126,6 +131,11 @@ namespace Etiseo {
 	  //! from camera coordinate to world coordinate
 	  bool cameraToWorldCoord (double xc, double yc, double zc, double& xw, double& yw, double& zw);
 
+	  //! from world coordinate to ground-plane map coordinate
+        bool worldToMapCoord (double xw, double yw, double zw, double& xm, double& ym);
+        //! from map coordinate to ground-plane world coordinate
+        bool mapToWorldCoord (double xc, double yc, double zc, double& xw, double& yw, double& zw);
+
 	protected:
 	
 		virtual void internalInit();
@@ -139,6 +149,7 @@ namespace Etiseo {
 	private:
 		
 		bool			isInit;
+		bool            isInit_w2map;
 		std::string		mName;
 		std::string     mcalibType;
 		
@@ -186,6 +197,7 @@ namespace Etiseo {
 		//homography
 		cv::Mat         mH_i2w;
 		cv::Mat         mH_w2i;
+		cv::Mat         mH_w2map;
  };
 };
 

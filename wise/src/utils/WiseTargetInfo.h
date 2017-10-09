@@ -16,36 +16,33 @@
 
 class WiseTargetInfo {
 public:
-//	typedef enum {
-		//NONE = 0,
-		//BOUNDING_BOX,
-	//} fov_t;
     int id;
 private: 
 	double pos_x;
 	double pos_y;
 	double pos_z;
-	//fov_t fov_type;
 	double bb_width;
 	double bb_height;
 	double bb_depth;
 
-
 	// Other stuff
+	bool unique_color;
 
 public:
 	inline void get_position(double&, double&, double&) const;
-	//inline fov_t get_fov_type();
-	//inline void get_bb(double&, double&, double&);
 	inline void get_bb(double&, double&) const;
+	inline void get_ucolor(bool&) const;
 
 private:
-	WiseTargetInfo() :pos_x(0), pos_y(0), pos_z(0)
-		            //fov_type(NONE), fov_bb_width(0), fov_bb_height(0)
+	WiseTargetInfo() :pos_x(0), pos_y(0), pos_z(0), bb_width(0), bb_height(0),bb_depth(0),unique_color(false)
 		{};
 
 public:
 	friend class WiseMovingTarget;
+    friend class WiseMultiCameraPeriodicApp_ICF;
+    friend class WiseMultiCameraPeriodicApp_MTIC;
+    friend class WiseMultiCameraPeriodicApp_ICFnet;
+
 };
 
 void WiseTargetInfo::get_position(double &x, double &y, double &z) const
@@ -55,15 +52,13 @@ void WiseTargetInfo::get_position(double &x, double &y, double &z) const
 	z = pos_z;
 }
 
-//fov_t WiseTargetInfo::get_fov_type()
-//{
-	//return fov_type;
-//}
-
 void WiseTargetInfo::get_bb(double &w, double &h) const
 {
 	w = bb_width;
 	h = bb_height;
 }
-
+void WiseTargetInfo::get_ucolor(bool &b) const
+{
+    b=unique_color;
+}
 #endif // __WiseTargetInfo_h__

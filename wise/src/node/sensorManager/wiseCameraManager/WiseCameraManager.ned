@@ -23,6 +23,7 @@ parameters:
 	
 	string calib_filename = default("none");
 	string calib_type = default("none");
+	string calib_world2map_filename = default("none");
 	
 	string fov_type = default ("bounding_box");
 	double fov_bb_width = default (16.0);

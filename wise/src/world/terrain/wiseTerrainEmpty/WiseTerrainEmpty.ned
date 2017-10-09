@@ -23,12 +23,13 @@ simple WiseTerrainEmpty like world.terrain.WiseBaseTerrain {
 
 parameters:
 	bool collectTraceInfo = default (false);
-	string gui = default ("");
+	string gui = default ("opencv");
 	bool gui_wait_start = default(false);
 	bool gui_show = default(false);
-	double scale_factor = default(0.5);	
 	string GPmap_path = default("");
 	bool draw_trajectory = default(false);
+	double scale_world = default(1); 	// to scale the size of the GUI-world so it can fit in small displays
+	
 gates:
 	input update @ directIn; // WiseBaseTerrain Update
 }

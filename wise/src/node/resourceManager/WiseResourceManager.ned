@@ -20,6 +20,9 @@ package node.resourceManager;
 simple WiseResourceManager {
  parameters:
 	bool collectTraceInfo = default (false);
+	bool generateLog = default (false);	
+	int displayData = default(-1);
+	
 	double ramSize = default (0.0);			//in kB
 	double flashSize = default (0.0);		//in kB
 	double flashWriteCost = default (0.0);	//per kB
@@ -30,7 +33,7 @@ simple WiseResourceManager {
 	string cpuPowerPerLevel = default ("");	//spent energy per time unit
 	string cpuSpeedPerLevel = default ("");
 	int cpuInitialPowerLevel = default (-1);	// index for the cpuPowerLevels array
-	double sigmaCPUClockDrift = default (0.00003);	// the standard deviation of the Drift of the CPU
+	double sigmaCPUClockDrift = default (0.0);	// the standard deviation of the Drift of the CPU
 
 	double optimizationFactor = default (5);
 	

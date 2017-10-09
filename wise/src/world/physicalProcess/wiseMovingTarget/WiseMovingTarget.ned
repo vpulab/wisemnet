@@ -39,6 +39,8 @@ parameters:
 	double move_later = default(0);
 	double noise = default(0.0);
 
+	bool unique_color=default(false);
+	
 gates:
  	output toNode[];
 	input fromNode[];

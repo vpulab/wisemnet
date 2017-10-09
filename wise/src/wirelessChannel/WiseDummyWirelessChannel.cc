@@ -29,7 +29,7 @@ bool WiseDummyWirelessChannel::check_connectivity(int tx, int rx)
 
 void WiseDummyWirelessChannel::initialize()
 {
-	WISE_DEBUG_3("WiseDummyWirelessChannel::initialize()");
+	WISE_DEBUG_20("WiseDummyWirelessChannel::initialize()");
 
 	int n_nodes = getParentModule()->par("numNodes");
 	connectivity_map = new std::set<int>[n_nodes];
@@ -38,7 +38,7 @@ void WiseDummyWirelessChannel::initialize()
 		connectivity_map[i].clear();
 		cModule *node = getParentModule()->getSubmodule("node", i);
 		const char *str = node->par("dummy_connectivity_map");
-		WISE_DEBUG_3("\tNODE_ " << i << " dummy_connectivity_map = '" << str << "'");
+		WISE_DEBUG_20("\tNODE_ " << i << " dummy_connectivity_map = '" << str << "'");
 		if (strlen(str) == 0)
 			continue;
 		cStringTokenizer ratesTokenizer(str);
@@ -50,7 +50,7 @@ void WiseDummyWirelessChannel::initialize()
 
 void WiseDummyWirelessChannel::finish()
 {
-	WISE_DEBUG_3("WiseDummyWirelessChannel::finish()");
+	WISE_DEBUG_20("WiseDummyWirelessChannel::finish()");
 	if (connectivity_map)
 		delete[] connectivity_map;
 }
@@ -61,11 +61,11 @@ void WiseDummyWirelessChannel::handleMessage(cMessage * msg)
 	const char *dst;
 	int out_node, in_node, msg_kind;
 
-	WISE_DEBUG_3("WiseDummyWirelessChannel::handleMessage()");
+	WISE_DEBUG_20("WiseDummyWirelessChannel::handleMessage()");
 	msg_kind = msg->getKind();
 	switch (msg_kind) {
 	case APPLICATION_PACKET:
-		WISE_DEBUG_3("\t APPLICATION_PACKET: ");
+		WISE_DEBUG_20("\t APPLICATION_PACKET: ");
 		ApplicationGenericDataPacket *p;
 		p = check_and_cast<ApplicationGenericDataPacket*>(msg);
 		dst = p->getApplicationInteractionControl().destination.c_str();
@@ -98,14 +98,14 @@ void WiseDummyWirelessChannel::handleMessage(cMessage * msg)
 		}
 		break;
 	default:
-		WISE_DEBUG_3("\t Unknown message: (delete it) ");
+		WISE_DEBUG_20("\t Unknown message: (delete it) ");
 		delete msg;
 	}
 }
 
 void WiseDummyWirelessChannel::finishSpecific()
 {
-	WISE_DEBUG_3("WiseDummyWirelessChannel::finishSpecific()");
+	WISE_DEBUG_20("WiseDummyWirelessChannel::finishSpecific()");
 }
 	
 

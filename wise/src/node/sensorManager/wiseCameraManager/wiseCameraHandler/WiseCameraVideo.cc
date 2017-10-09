@@ -36,10 +36,9 @@ void WiseCameraVideo::initialize()
 
 WiseCameraMessage *WiseCameraVideo::process(WisePhysicalProcessMessage *msg)
 {
-	WISE_DEBUG_3("WiseCameraVideo::handleSample()");
+   WISE_DEBUG_20("WiseCameraVideo::handleSample()");
 
-	WiseVideoFileMessage *event = check_and_cast<WiseVideoFileMessage*>(msg);
-
+    WiseVideoFileMessage *event = check_and_cast<WiseVideoFileMessage*>(msg);
     WiseCameraVideoMessage *smp = NULL;
     smp = new WiseCameraVideoMessage("Camera Detection Video", SENSOR_READING_MESSAGE);;
     smp->setCameraSampleType("WiseCameraVideo");

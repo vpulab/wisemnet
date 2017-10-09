@@ -1,6 +1,11 @@
 #ifndef __WISEUTILS_H__
 #define __WISEUTILS_H__
 
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <stdio.h>
+#include <stdlib.h>
+
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -52,6 +57,19 @@ std::ostream& operator<< (std::ostream& out, const std::vector<T>& v) {
     out << "]";
     return out;
 }
+
+inline bool dirExists(const char *path)
+{
+    struct stat info;
+
+    if(stat( path, &info ) != 0)
+        return 0;
+    else if(info.st_mode & S_IFDIR)
+        return true;
+    else
+        return false;
+}
+
 
 inline std::string print_vector(const std::vector<std::string> &v)
 {

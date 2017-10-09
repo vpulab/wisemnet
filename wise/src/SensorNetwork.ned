@@ -38,8 +38,8 @@ network SN
         int numPhysicalProcesses = default(1);	// the number of physical processes attached to the network (e.g. videofeeds, moving targets,...)
         string physicalProcessName = default("CustomizablePhysicalProcess");
                 
-        int field_x = default(30);			// the length of the deployment field
-        int field_y = default(30);			// the width of the deployment field
+        int field_x = default(-1);			// the length of the deployment field
+        int field_y = default(-1);			// the width of the deployment field
         int field_z = default(0);			// the height of the deployment field (2-D field by default)
 
         bool use_calibration = default(false); //FLAG to indicate if calibration needs to be used (e.g. cameras or real ground-plane maps)
@@ -47,12 +47,14 @@ network SN
         double xmax = default(-1);			// the maximum X-coordinate of the area covered by the network
         double ymin = default(-1);			// the minimum Y-coordinate of the area covered by the network
         double ymax = default(-1);			// the maximum Y-coordinate of the area covered by the network
+		
+        bool dummy_communication = default(true); //FLAG to employ dummy communication        
 
-        bool dummy_communication = default(false); //FLAG to employ dummy communication        
-
-        string deployment = default("");	// ??
+        //string deployment = default("center"); // default deployment in the center of the video
+        string deployment = default("");	// default deployment to be defined by user
 
         string TerrainName = default("WiseTerrainEmpty"); 		// default module to visualize the network (camera, targets,...)
+        
         string debugInfoFileName = default("Wise-Trace.txt");	// default filename for debugging
 
 	//GATES TO/FROM MODULES IN THE NETWORK

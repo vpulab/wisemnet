@@ -28,6 +28,7 @@ private:
 	cv::Mat _frame,_tmpFrame;
 
 	int _iniFrame,_endFrame, _curFrame; // initial, final and current index of frames read
+	int _waitFrames; //number of frames to wait for synchronization with other video in multicamera settings
     int _numFrames;//total number of frames
     double _resize;
 

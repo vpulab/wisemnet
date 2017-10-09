@@ -15,10 +15,9 @@
 //
 // *****************************************************************************
 
+#include <wiseBaseApp/WiseBaseApp.h>
 #include "WiseResourceManager.h"
 #include "WiseResourceManager_utils.h"
-#include "WiseBaseApplication.h"
-
 #include "PropertyFileReader.h"
 
 Define_Module(WiseResourceManager);
@@ -91,6 +90,12 @@ void WiseResourceManager::initialize()
 
         _cpuClockfreqHost = getProcessorSpeed();//Get processor speed of host machine
     }
+
+    //get flag to enable the generation of log
+    _generateLog = par("generateLog").boolValue();
+
+    //get flag to enable the display of data in console
+    _displayData = par("displayData");
 }
 
 void WiseResourceManager::load_consumption_models()
@@ -175,18 +180,29 @@ void WiseResourceManager::load_consumption_models()
 
 }
 
-void WiseResourceManager::initLogger(std::string filename, int self, int camID)
+void WiseResourceManager::initLogger(std::string filename, int self, std::string camID)
 {
     _self = self;
     _camID = camID;
-    _logger = new ofstream();
 
-   if (!_logger->is_open()){
-       _logger->open(filename.c_str());
-       *_logger << "#simulation results for energy consumptions" << endl;
-   }
+    if( _generateLog == true)
+    {
+       _logger = new ofstream();
+
+       if (!_logger->is_open()){
+           _logger->open(filename.c_str());
+           *_logger << "#simulation results for energy consumptions" << endl;
+       }
+    }
+    else
+        _logger = NULL;
 }
 
+void WiseResourceManager::initIDs(int self ,std::string camID)
+{
+    _self = self;
+    _camID = camID;
+}
 /* The WiseResourceManager module is not connected with other modules. They use instead its public methods.
  * The only possible message is periodic energy consumption. There is no message object associated to that message kind.
  */
@@ -501,8 +517,12 @@ void WiseResourceManager::computeEnergyCOM(int frameid,int numBytesTX, int numBy
        _com.Tidl=0;
        _com.Tact[0]=_sen.Tframe;
        _com.dropData = 1;
-       _com.data.TXbit_done[count] = _com.bitrateTX*_sen.Tframe;
-       _com.data.RXbit_done[count] = _com.bitrateRX*_sen.Tframe;
+
+       if(_com.data.TXbit_req[count] > 0)
+           _com.data.TXbit_done[count] = _com.bitrateTX*_sen.Tframe;
+
+       if(_com.data.RXbit_req[count] > 0)
+           _com.data.RXbit_done[count] = _com.bitrateRX*_sen.Tframe;
       //opp_error("ERROR: Unexpected value for Tidle of COMMS-TX task: %s", _com.Tidl);
   }
    else{
@@ -713,4 +733,42 @@ double WiseResourceManager::getSpentTime(int index)
         return _pro.exeTimeO[count-1];
     else
         return _pro.exeTimeO[index];
+}
+
+void WiseResourceManager::displayCurrentData()
+{
+    double time_scale = 1e3; //convert to ms
+    double totProTime=-1;
+
+    double rateTX_request=-1,rateTX_achieve=-1, rateRX_request=-1,rateRX_achieve=-1;
+    int ids = _sen.cost.count-1,idp = _pro.cost.count-1,idc=_com.cost.count-1;
+    double time_=-1;
+
+    if (_displayData == -1)
+        return;
+
+    switch(_displayData)
+    {
+    case 0:
+        //time
+        std::cout << "cam "<<_camID<< " frame=" <<  _sen.cost.frID[ids] << " timing sensing@" <<_sen.framerate<<"fps =" << 1/_sen.framerate*time_scale << " ms ";
+        totProTime = _pro.exeTimeO[idp] + _pro.exeTimeC[idp];
+        std::cout << "processing=" <<  std::setw(5) << std::setprecision(3) << totProTime*time_scale<< " ms" << std::endl;
+        break;
+    case 1:
+        //bandwidth
+        time_ = totProTime;
+        if(time_<=0)
+            time_ = 1/_sen.framerate; //if "totProTime" is not computed, we assume that the job is done according to the sensing rate (equal to "1/_sen.framerate")
+        rateTX_request = _com.data.TXbit_req[idc]/8;
+        rateTX_achieve = _com.data.TXbit_done[idc]/8;
+        rateRX_request = _com.data.RXbit_req[idc]/8;
+        rateRX_achieve = _com.data.RXbit_done[idc]/8;
+        std::cout << "cam "<<_camID<< " frame=" <<  _sen.cost.frID[ids] << " (" << time_*1e3<<"ms) TX: intended=" << rateTX_request/1e3 << "KB achieved=" << rateTX_achieve/1e3 <<"KB (MAX="<< time_*_com.bitrateTX/(8*1e3) <<"KB)";
+        std::cout << " RX: intended=" << rateRX_request/1e3 << "KB achieved=" << rateRX_achieve/1e3 <<"KB (MAX="<< time_*_com.bitrateRX/(8*1e3) <<"KB)"<< std::endl;
+        break;
+    default:
+        opp_error("ERROR: wrong code to display resource consumption");
+        break;
+    }
 }

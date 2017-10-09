@@ -25,11 +25,13 @@ parameters:
 	string gui;				//type of GUI used for visualizing the network
     bool gui_wait_start;	//FLAG to wait for a key-pressed event before starting the application
     bool gui_show;			//FLAG to show the GUI
-    double scale_factor;	//FLAG to scale the size of the GUI so it can fit in small displays
     bool draw_trajectory;	//FLAG to disable repainting for each target and being able to visualize its trajectory
     string GPmap_path;		//Location/path for the image describing the ground-plane map.
     						//The GUI will paint cameras & targets on this ground-plane map 
     						//It is only loaded if "SN.use_calibration" is enabled.
+    double scale_world; 	// to scale the size of the GUI-world so it can fit in small displays
+    						
+    //double FOV_display_scale;
     
 gates:
 	//output toSensorDevManager;

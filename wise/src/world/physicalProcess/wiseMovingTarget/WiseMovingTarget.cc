@@ -46,7 +46,7 @@ WiseMovingTarget::~WiseMovingTarget()
 void WiseMovingTarget::initialize()
 {
 	WiseBasePhysicalProcess::initialize();
-	WISE_DEBUG_3("WiseMovingTarget::initialize()");
+	WISE_DEBUG_10("WiseMovingTarget::initialize()");
 	load_parameters();
 
 	if (random_init == true){
@@ -70,6 +70,7 @@ void WiseMovingTarget::initialize()
 	target_info.bb_width = target_width;
 	target_info.bb_height = target_height;
 	target_info.bb_depth = target_depth;
+	target_info.unique_color = unique_color;
 	lin_x_step = TMP_STEP_SIZE;
 	lin_y_step = TMP_STEP_SIZE;
 	diagonal = lin_x_step / sqrt(TMP_STEP_SIZE);
@@ -98,7 +99,7 @@ void WiseMovingTarget::initialize()
 
 void WiseMovingTarget::handleMessage(cMessage * msg)
 {
-	WISE_DEBUG_3("WiseMovingTarget::handleMessage()");
+	WISE_DEBUG_10("WiseMovingTarget::handleMessage()");
 
 	WiseMovingTargetMessage *tgt_msg;
 	WiseTargetBoundingBox bb;
@@ -107,10 +108,10 @@ void WiseMovingTarget::handleMessage(cMessage * msg)
 		// NOTE: substitute the req message with a specific one
 		WisePhysicalProcessMessage *s_msg;
 		s_msg = check_and_cast <WisePhysicalProcessMessage*>(msg);
-		WISE_DEBUG_2("WiseMovingTarget: PHYSICAL_PROCESS_SAMPLING:");
-		WISE_DEBUG_2("\tsrc_node = " << s_msg->getSrcID()); 
-		WISE_DEBUG_2("\tsrc_sensor = " << s_msg->getSensorIndex());
-		WISE_DEBUG_2("\ttarget ID (phyProc ID) = " << self); 
+		//WISE_DEBUG_2("WiseMovingTarget: PHYSICAL_PROCESS_SAMPLING:");
+		//WISE_DEBUG_2("\tsrc_node = " << s_msg->getSrcID());
+		//WISE_DEBUG_2("\tsrc_sensor = " << s_msg->getSensorIndex());
+		//WISE_DEBUG_2("\ttarget ID (phyProc ID) = " << self);
 		tgt_msg = new WiseMovingTargetMessage("Target Message", PHYSICAL_PROCESS_SAMPLING);
 		tgt_msg->setTargetID(self);
 		calculate_bounding_box(bb);
@@ -121,7 +122,7 @@ void WiseMovingTarget::handleMessage(cMessage * msg)
 		s_msg = tgt_msg;
 		break;
 	case TIMER_SERVICE: 
-		WISE_DEBUG_2("WiseMovingTarget: TIME_SERVICE:");
+		//WISE_DEBUG_2("WiseMovingTarget: TIME_SERVICE:");
 		if (move_func) // Should not be necessary
 			(this->*move_func)();
 		if (log_enabled)
@@ -140,11 +141,12 @@ void WiseMovingTarget::handleMessage(cMessage * msg)
 
 void WiseMovingTarget::finishSpecific()
 {
-	WISE_DEBUG_3("WiseMovingTarget::finishSpecific()");
+	WISE_DEBUG_10("WiseMovingTarget::finishSpecific()");
 }
 
 void WiseMovingTarget::load_parameters()
 {
+    unique_color = par("unique_color").boolValue();
 	x_init = par("x_init");
 	y_init = par("y_init");
 	z_init = par("z_init");

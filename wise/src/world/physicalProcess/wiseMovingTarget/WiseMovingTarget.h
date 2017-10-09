@@ -41,6 +41,8 @@ private:
 	bool random_init;
 	bool random_noise;
 	double noise;
+	double unique_color;
+
 
 	/*--- Custom class member variables ---*/
 	double x_curr;

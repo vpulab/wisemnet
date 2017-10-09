@@ -28,14 +28,11 @@ void WiseTerrainEmpty::initialize()
     //Load data without using calibration data
     if (_useCalibration == false)
     {
-        x_size = (double)_net->par("field_x");  // width of the area covered by the network (user defined)
-        y_size = (double)_net->par("field_y");  // length of the area covered by the network (user defined)
-        z_size = (double)_net->par("field_z");  // height of the area covered by the network (user defined)
         _GPmap_path = "";
     }
     else
         error("Loading Empty Terrain with available calibration data");
 
     //Create the GUI
-    gui = (gui_type == "") ? NULL : WiseGuiWorld::Factory::create(gui_type,gui_show,(unsigned)x_size,(unsigned)y_size, _scale_factor,_GPmap_path,draw_trajectory);
+    gui = (gui_type == "") ? NULL : WiseGuiWorld::Factory::create(gui_type,gui_show,(unsigned)x_size,(unsigned)y_size, 0.0,0.0,_scale_world,_GPmap_path,draw_trajectory);
 }

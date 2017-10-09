@@ -20,16 +20,18 @@ class WiseCameraMessage;
 struct WiseTargetDetection {
 	unsigned int target_id;
 	bool valid;
-	// Image coordinate
+	// Image plane coordinates
 	unsigned int bb_x_tl;
 	unsigned int bb_y_tl;
 	unsigned int bb_x_br;
 	unsigned int bb_y_br;
-	// World coordinate (might be cropped by FOV)
+	
+	// World coordinates (might be cropped by FOV)
 	double ext_bb_x_tl;
 	double ext_bb_y_tl;
 	double ext_bb_x_br;
 	double ext_bb_y_br;
+	
 	// World TRUE coordinate
 	double true_bb_x_tl;
 	double true_bb_y_tl;

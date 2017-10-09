@@ -26,7 +26,8 @@ parameters:
 	double move_later = default(0);
 	
 	double iniFrame = default(-1);
-	double endFrame = default(-1);		
+	double endFrame = default(-1);	
+	double waitFrames = default(0);	
 	
 	bool show_video =  default(false);
 

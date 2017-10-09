@@ -24,7 +24,7 @@ void WiseBasePhysicalProcess::initialize()
 	cModule *parent = getParentModule();
 
 	if (parent->findSubmodule("wiseTerrain") == -1) {
-		WISE_DEBUG_3("If you see this, it's BAAAAAAD!!!"); 
+		WISE_DEBUG_10("If you see this, it's BAAAAAAD!!!");
 		perr_app("Error in getting a valid reference to WiseBaseTerrain for direct method calls.");
 	}
 	terrain = check_and_cast <WiseBaseTerrain*> (parent->getSubmodule("wiseTerrain"));
