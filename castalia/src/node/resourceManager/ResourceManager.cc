@@ -11,7 +11,7 @@
  *******************************************************************************/
 
 #include "ResourceManager.h"
-#include "WiseBaseApplication.h"
+#include <wiseBaseApp/WiseBaseApp.h>
 
 Define_Module(ResourceManager);
 
