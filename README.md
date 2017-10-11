@@ -14,10 +14,7 @@ The main features are:
 * Simulates realistic multi-camera networks with both realworld
 and synthetic datasets
 
-Click [here](http://www.eecs.qmul.ac.uk/~andrea/wise-mnet.html) to download the latest version of the simulator and the user guide. 
-
-
-Please cite the following reference when using the simulator
+Please cite the following reference when using the simulator or any included files:
  
 ```
 Networked Computer Vision: the importance of a holistic simulator, 
@@ -40,7 +37,7 @@ Original version (WiseMnet 2011):
 Documentation
 ------------
 
-The documentation of the code is available at the file `doc/UserGuide-v1.2.pdf`. Additionally, documentation using doxygen style is provided in the directory 'doc/html' (see 'doc/html/index.html' for more information). 
+The documentation of the code is available at the file `doc/UserGuide-v1.4.pdf`. Additionally, documentation using doxygen style is provided in the directory 'doc/html' (see 'doc/html/index.html' for more information). 
 
 Moreover, we provide tutorials via Youtube [[list]](https://www.youtube.com/playlist?list=PLXw9Diaj9Nhlt3XczwnoEavshvuwDC4N0)
 * WiseMnet++ tutorial: fresh install from github [[video]](https://www.youtube.com/watch?v=2b153IlSWF0)
