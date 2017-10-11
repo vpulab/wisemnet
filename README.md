@@ -55,7 +55,7 @@ Wise-MNet requires the following libraries:
 * OpenCV version 3.2.0 
 * Eigen3 version 3.2.92
 
-Two installation scripts are provided `install_omnetpp.sh` and `install_opencv.sh`. Further installation instructions are available at `doc/UserGuide-v1.2.pdf`
+Two installation scripts are provided `install_omnetpp.sh` and `install_opencv.sh`. Further installation instructions are available at `doc/UserGuide-v1.4.pdf`
 
 License
 -------
