@@ -14,7 +14,7 @@ The main features are:
 * Simulates realistic multi-camera networks with both realworld
 and synthetic datasets
 
-Please cite the following reference when using the simulator or any included files:
+Please cite the following reference when using the simulator or any included file:
  
 ```
 Networked Computer Vision: the importance of a holistic simulator, 
@@ -34,16 +34,37 @@ Original version (WiseMnet 2011):
 * Christian Nastasi (nastasichr@gmail.com)
 * Andrea Cavallaro (Queen Mary University of London, a.cavallaro@qmul.ac.uk)
 
+
+Distribution as a virtual machine
+------------
+To avoid installation issues, a Virtual Machine (VM) is provided to ease the development of applications in Wise-Mnet. It can be downloaded [[here]](http://www-vpu.eps.uam.es/wisemnet/ubuntu16-wisemnetv1.4.ova) (5.3GB, 17GB uncompressed) and a tutorial to use the VM is available [[here]](https://youtu.be/_F5v-UrN-y0)
+
+The VM runs using the VirtualBox manager which is required to be installed in your host system [[Linux download]](https://www.virtualbox.org/wiki/Linux_Downloads) and
+[[Windows download]](http://download.virtualbox.org/virtualbox/5.1.28/VirtualBox-5.1.28-117968-Win.exe). Thus, you can run WiSE-MNet from Windows or Linux via VirtualBox. 
+
+The provided VM has been created with minimal capabilities with the following main details:
+
+* OS Ubuntu 16.04 LTS
+* 2 CPU
+* 4GB RAM
+* Hard Drive (max 40GB, current usage 17GB) 
+* Software installed: required libraries for WiseMnet v1.4 (Omnet++ 5.0 and OpenCV 3.2.0)
+* User=wise password=wisemnet
+
+Once the VM is added to the VirtualBox manager, we suggest to change the VM capabilitites (i.e. increase the number of CPUs, RAM and HDD space) according to your system capabilities.
+
 Documentation
 ------------
 
 The documentation of the code is available at the file `doc/UserGuide-v1.4.pdf`. Additionally, documentation using doxygen style is provided in the directory 'doc/html' (see 'doc/html/index.html' for more information). 
 
-Moreover, we provide tutorials via Youtube [[list]](https://www.youtube.com/playlist?list=PLXw9Diaj9Nhlt3XczwnoEavshvuwDC4N0)
-* WiseMnet++ tutorial: fresh install from github [[video]](https://www.youtube.com/watch?v=2b153IlSWF0)
+Moreover, we provide tutorials via Youtube [[list]](https://www.youtube.com/playlist?list=PLXw9Diaj9Nhlt3XczwnoEavshvuwDC4N0):
+
+* WiseMnet++ tutorial: install from github using command line [[video]](https://youtu.be/8w01-vg5qIU)
+* WiseMnet++ tutorial: install from github using GUI-Omnet++ 5.0 [[video]](https://youtu.be/rpwIUlUu-3Y)
 * WiseMnet++ tutorial: changing settings for a simulation [[video]](https://www.youtube.com/watch?v=YGMkfrgR3JI)
-* WiseMnet++ tutorial: consensus multi-camera tracking [[video]](https://www.youtube.com/watch?v=NQX_dzY5h20&)
-* WiseMnet++ tutorial: multi-camera visual processing [[video]](https://www.youtube.com/watch?v=-Xym_Xk-9OQ)
+* WiseMnet++ tutorial: downloading and using multi-camera datasets [[video]](https://www.youtube.com/watch?v=-Xym_Xk-9OQ)
+
 
 Required libraries and installation
 -------------------------------
@@ -56,11 +77,6 @@ Wise-MNet requires the following libraries:
 * Eigen3 version 3.2.92
 
 Two installation scripts are provided `install_omnetpp.sh` and `install_opencv.sh`. Further installation instructions are available at `doc/UserGuide-v1.4.pdf`
-
-License
--------
-
-The simulator code and the documentation is available under the Academic Public License (same as OMNeT++ and Castalia). See the "LICENSE_WISE" for more information. 
 
  
 Dataset downloading
@@ -103,3 +119,8 @@ Currently, the simulator has been used in the following papers:
 * **Energy Consumption Models for Smart-Camera Networks**, IEEE TCSVT 2016 [[link]](http://ieeexplore.ieee.org/document/7517353/),
 
 * **Networked Computer Vision: the importance of a holistic simulator**, IEEE COMPUTER 2017 [[preprint]](http://www.eecs.qmul.ac.uk/~andrea/wise-mnet.html)
+
+License
+-------
+
+The simulator code and the documentation is available under the Academic Public License (same as OMNeT++ and Castalia). See the "LICENSE_WISE" for more information. 
