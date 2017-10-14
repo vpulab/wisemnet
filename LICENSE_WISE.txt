@@ -5,7 +5,7 @@ The following license governs the use of WiSE-MNet in academic and educational e
                         
 ACADEMIC PUBLIC LICENSE
 
-Copyright (C) 2003-2010 Andras Varga, 2011 Christian Nasatasi and Andrea Cavallaro
+Copyright (C) 2003-2010 Andras Varga, 2011 Christian Nasatasi and Andrea Cavallaro,  2017 Juan C. SanMiguel and Andrea Cavallaro
 
 
 Preamble
