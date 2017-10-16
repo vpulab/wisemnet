@@ -51,7 +51,7 @@ The provided VM has been created with minimal capabilities with the following ma
 * Software installed: required libraries for WiseMnet v1.4 (Omnet++ 5.0 and OpenCV 3.2.0)
 * User=wise password=wisemnet
 
-Once the VM is added to the VirtualBox manager, we suggest to change the VM capabilitites (i.e. increase the number of CPUs, RAM and HDD space) according to your system capabilities.
+Once the VM is added to the VirtualBox manager, we suggest to change the VM features (i.e. increase the number of CPUs, RAM and HDD space) according to your system capabilities.
 
 Documentation
 ------------
