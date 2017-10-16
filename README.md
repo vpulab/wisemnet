@@ -37,7 +37,7 @@ Original version (WiseMnet 2011):
 
 Distribution as a virtual machine
 ------------
-To avoid installation issues, a Virtual Machine (VM) is provided to ease the development of applications in Wise-Mnet. It can be downloaded [[here]](http://www-vpu.eps.uam.es/wisemnet/ubuntu16-wisemnetv1.4.ova) (5.3GB, 17GB uncompressed) and a tutorial to use the VM is available [[here]](https://youtu.be/_F5v-UrN-y0)
+To avoid installation issues, a Virtual Machine (VM) is provided to ease the development of applications in Wise-Mnet. It can be downloaded [[here]](http://www-vpu.eps.uam.es/wisemnet/ubuntu16-wisemnet-v1.4.ova) (5.3GB, 17GB uncompressed) and a tutorial to use the VM is available [[here]](https://youtu.be/_F5v-UrN-y0)
 
 The VM runs using the VirtualBox manager which is required to be installed in your host system [[Linux download]](https://www.virtualbox.org/wiki/Linux_Downloads) and
 [[Windows download]](http://download.virtualbox.org/virtualbox/5.1.28/VirtualBox-5.1.28-117968-Win.exe). Thus, you can run WiSE-MNet from Windows or Linux via VirtualBox. 
